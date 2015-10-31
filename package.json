@@ -3,19 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "style": "app/styles/main.less",
   "scripts": {
     "browser-sync": "browser-sync start --server './dist' --files './dist/**/*, ./dist/*'",
-    "clean": "rm -rf dist && mkdir dist && mkdir dist/scripts && mkdir dist/data",
-    "copy": "cp -al app/*.html dist/; cp -al app/data/* dist/data",
-    "serve": "npm run clean & npm run watch:js && watch 'npm run copy' ",
-    "watch:js": "watchify app/scripts/main -p [ parcelify -wo dist/styles/main.css ]-dv -o 'exorcist dist/scripts/main.js.map > dist/scripts/main.js --base ./scripts'"
+    "clean": "rimraf dist && mkdir dist && mkdir dist/scripts && mkdir dist/data && mkdir dist/styles",
+    "watch:copy": "cpx \"app/*.html\" \"dist\" -w & cpx \"app/data/*\" \"dist/data\" -w",
+    "serve": "npm run clean && npm run watch:js & npm run watch:copy & npm run browser-sync ",
+    "watch:js": "watchify app/scripts/main.js -p [ parcelify -wo dist/styles/main.css ] -dv -o 'exorcist dist/scripts/main.js.map > dist/scripts/main.js --base ./scripts'"
   },
-  "author": "",
+  "author": "Bryan Brick",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.9.11",
+    "cpx": "^1.2.1",
     "exorcist": "^0.4.0",
+    "less-css-stream": "^1.0.0",
     "parcelify": "^2.1.0",
+    "rimraf": "^2.4.3",
     "watchify": "^3.6.0"
   }
 }
