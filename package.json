@@ -1,0 +1,21 @@
+{
+  "name": "neighborhoods",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "browser-sync": "browser-sync start --server './dist' --files './dist/**/*, ./dist/*'",
+    "clean": "rm -rf dist && mkdir dist && mkdir dist/scripts && mkdir dist/data",
+    "copy": "cp -al app/*.html dist/; cp -al app/data/* dist/data",
+    "serve": "npm run clean & npm run watch:js && watch 'npm run copy' ",
+    "watch:js": "watchify app/scripts/main -p [ parcelify -wo dist/styles/main.css ]-dv -o 'exorcist dist/scripts/main.js.map > dist/scripts/main.js --base ./scripts'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.9.11",
+    "exorcist": "^0.4.0",
+    "parcelify": "^2.1.0",
+    "watchify": "^3.6.0"
+  }
+}
