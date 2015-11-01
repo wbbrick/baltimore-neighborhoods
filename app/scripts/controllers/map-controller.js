@@ -3,7 +3,6 @@
  * so as to abstract away the API
  */
 
-let Backbone = require('backbone');
 let L = require('leaflet');
 L.esri = require('esri-leaflet');
 let d3 = require('d3');
