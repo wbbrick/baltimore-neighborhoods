@@ -12,7 +12,7 @@ let stampit = require('stampit');
 let privateMethods = stampit().init( function(){
 	this._setupD3 = function(){
 		this.svg = d3.select(this.map.getPanes().overlayPane).append('svg');
-		this.g = this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil');
+		this.g = this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pen');
 		this.sketchGroups = [
 			this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil'),
 			this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil'),
@@ -64,7 +64,7 @@ let privateMethods = stampit().init( function(){
 
 			function randomizeCoordinate( coordinates ){
 				if( coordinates.length === 2) {
-					return [coordinates[0] + (Math.random() - 0.5) * .00005, coordinates[1] + (Math.random() - 0.5) * .00005];
+					return [coordinates[0] + (Math.random() - 0.5) * .00009, coordinates[1] + (Math.random() - 0.5) * .00009];
 				}
 				else{
 					return coordinates.map( randomizeCoordinate );
