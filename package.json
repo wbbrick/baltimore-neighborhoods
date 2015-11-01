@@ -3,23 +3,46 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "style": "app/styles/main.less",
+	"style": [
+		"app/styles/main.less",
+		"./node_modules/leaflet/dist/leaflet.css"
+	],
   "scripts": {
-    "browser-sync": "browser-sync start --server './dist' --files './dist/**/*, ./dist/*'",
+    "browser-sync": "browser-sync start --server './dist' --files './dist/scripts/main.js'",
     "clean": "rimraf dist && mkdir dist && mkdir dist/scripts && mkdir dist/data && mkdir dist/styles",
     "watch:copy": "cpx \"app/*.html\" \"dist\" -w & cpx \"app/data/*\" \"dist/data\" -w",
     "serve": "npm run clean && npm run watch:js & npm run watch:copy & npm run browser-sync ",
     "watch:js": "watchify app/scripts/main.js -p [ parcelify -wo dist/styles/main.css ] -dv -o 'exorcist dist/scripts/main.js.map > dist/scripts/main.js --base ./scripts'"
   },
+  "browser": {
+    "underscore": "./node_modules/lodash/index.js"
+  },
+  "browserify": {
+    "transform": [
+      "jstify",
+      "babelify"
+    ]
+  },
   "author": "Bryan Brick",
   "license": "ISC",
   "devDependencies": {
+    "babelify": "^7.1.0",
     "browser-sync": "^2.9.11",
     "cpx": "^1.2.1",
     "exorcist": "^0.4.0",
+    "jstify": "^0.12.0",
     "less-css-stream": "^1.0.0",
     "parcelify": "^2.1.0",
     "rimraf": "^2.4.3",
     "watchify": "^3.6.0"
+  },
+  "dependencies": {
+    "backbone": "^1.2.3",
+    "d3": "^3.5.6",
+    "esri-leaflet": "^1.0.0",
+    "jquery": "^2.1.4",
+    "leaflet": "^0.7.7",
+    "lodash": "^3.10.1",
+    "redux": "^3.0.4"
   }
 }
