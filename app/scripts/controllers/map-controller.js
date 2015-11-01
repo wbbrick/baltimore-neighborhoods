@@ -64,7 +64,7 @@ let privateMethods = stampit().init( function(){
 
 			function randomizeCoordinate( coordinates ){
 				if( coordinates.length === 2) {
-					return [coordinates[0] + (Math.random() - 0.5) * .00009, coordinates[1] + (Math.random() - 0.5) * .00009];
+					return [coordinates[0] + (Math.random() - 0.5) * .00007, coordinates[1] + (Math.random() - 0.5) * .00007];
 				}
 				else{
 					return coordinates.map( randomizeCoordinate );
