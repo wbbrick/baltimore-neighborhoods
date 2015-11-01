@@ -9,7 +9,7 @@
     "./node_modules/leaflet/dist/leaflet.css"
   ],
   "scripts": {
-    "browser-sync": "browser-sync start --server './dist' --files 'dist/scripts/main.js'",
+    "browser-sync": "browser-sync start --server './dist' --files ['dist/scripts/main.js', 'dist/styles/main.css']",
     "clean": "rimraf dist && mkdir dist && mkdir dist/scripts && mkdir dist/data && mkdir dist/styles",
     "watch:copy": "cpx \"app/*.html\" \"dist\" -w & cpx \"app/data/*\" \"dist/data\" -w",
     "serve": "npm run clean && npm run watch:js & npm run watch:copy & npm run browser-sync ",
