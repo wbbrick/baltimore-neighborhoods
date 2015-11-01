@@ -12,7 +12,13 @@ let stampit = require('stampit');
 let privateMethods = stampit().init( function(){
 	this._setupD3 = function(){
 		this.svg = d3.select(this.map.getPanes().overlayPane).append('svg');
-		this.g = this.svg.append('g').attr('class', 'leaflet-zoom-hide');
+		this.g = this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil');
+		this.sketchGroups = [
+			this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil'),
+			this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil'),
+			this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil'),
+			this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil')
+		];
 	};
 
 	this._addNeighborhoods = function() {
@@ -28,23 +34,56 @@ let privateMethods = stampit().init( function(){
 		let feature = this.g.selectAll('path')
 			    .data(this.neighborhoods.toJSON() )
 			    .enter().append('path');
-		feature.attr('d', this.path);
 
-		let bounds = this.path.bounds( this.neighborhoods.formOriginalGeoJSON() );
-		let topLeft = bounds[0];
-		let bottomRight = bounds[1];
+		this.sketchFeatures = [];
+		this.sketchGroups.forEach( function( g ) {
+			let sketchFeature = g.selectAll('path')
+				    .data(this.neighborhoods.toJSON() )
+				    .enter().append('path');
+			this.sketchFeatures.push( sketchFeature );
+		}.bind( this ) );
 
-		this.svg.attr('width', bottomRight[0] - topLeft[0])
-			.attr('height', bottomRight[1] - topLeft[1])
-			.style('left', topLeft[0] + 'px')
-			.style('top', topLeft[1] + 'px');
+		// Reposition the SVG to cover the features.
+		let reset = function reset() {
+			let bounds = this.path.bounds(this.neighborhoods.formOriginalGeoJSON());
+			let topLeft = bounds[0];
+			let bottomRight = bounds[1];
 
-		this.g.attr('transform', 'translate(' + -topLeft[0] + ',' + -topLeft[1] + ')');
+			this.svg.attr('width', bottomRight[0] - topLeft[0])
+				.attr('height', bottomRight[1] - topLeft[1])
+				.style('left', topLeft[0] + 'px')
+				.style('top', topLeft[1] + 'px');
+
+			this.g.attr('transform', 'translate(' + -topLeft[0] + ',' + -topLeft[1] + ')');
+			this.sketchGroups.forEach( function( g ) {
+				g.attr('transform', 'translate(' + -topLeft[0] + ',' + -topLeft[1] + ')');
+			} );
+
+
+			feature.attr('d', this.path );
+
+			function randomizeCoordinate( coordinates ){
+				if( coordinates.length === 2) {
+					return [coordinates[0] + (Math.random() - 0.5) * .00005, coordinates[1] + (Math.random() - 0.5) * .00005];
+				}
+				else{
+					return coordinates.map( randomizeCoordinate );
+				}
+			}
+
+			this.sketchFeatures.forEach( function ( sketchFeature ) {
+				sketchFeature.attr('d', function( data ){
+					data.geometry.coordinates = data.geometry.coordinates.map( randomizeCoordinate );
+					return this.path( data );
+				}.bind( this ) );
+			}.bind( this ) );
+		}.bind( this );
+		map.on('viewreset', reset);
+		reset();
 	};
 
-
 	this._setBasemap = function(){
-		L.esri.basemapLayer('Streets').addTo(this.map);
+		L.esri.basemapLayer('Gray').addTo(this.map);
 	};
 } );
 

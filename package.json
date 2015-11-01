@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "style": [
-    "app/styles/main.less",
+      "app/styles/main.less",
+	  "app/styles/map.less",
     "./node_modules/leaflet/dist/leaflet.css"
   ],
   "scripts": {
