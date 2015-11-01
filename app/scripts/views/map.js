@@ -3,19 +3,25 @@
  */
 
 let Backbone = require('backbone');
-let MapController = require('../map-controller');
+let MapController = require('../controllers/map-controller');
 
 module.exports = ( function(){
 	return Backbone.View.extend( {
 		initialize: function( options ) {
 			this.store = options.store;
-			this.mapController = MapController;
+			this.neighborhoods = options.neighborhoods;
+			this.mapController = MapController( {
+				'neighborhoods': this.neighborhoods
+			} );
 		},
 
 		template: require('../templates/map.ejs')(),
 
 		setupMap: function() {
-			this.mapController.createMap( 'map' );
+			this.mapController.createMap( {
+				'div': 'map',
+				'neighborhoods': this.neighborhoods
+			} );
 			this.mapController.setView( {
 				'lat': 39.283333,
 				'lon': -76.616667,

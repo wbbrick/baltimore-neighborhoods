@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-	"style": [
-		"app/styles/main.less",
-		"./node_modules/leaflet/dist/leaflet.css"
-	],
+  "style": [
+    "app/styles/main.less",
+    "./node_modules/leaflet/dist/leaflet.css"
+  ],
   "scripts": {
-    "browser-sync": "browser-sync start --server './dist' --files './dist/scripts/main.js'",
+    "browser-sync": "browser-sync start --server './dist' --files 'dist/scripts/main.js'",
     "clean": "rimraf dist && mkdir dist && mkdir dist/scripts && mkdir dist/data && mkdir dist/styles",
     "watch:copy": "cpx \"app/*.html\" \"dist\" -w & cpx \"app/data/*\" \"dist/data\" -w",
     "serve": "npm run clean && npm run watch:js & npm run watch:copy & npm run browser-sync ",
@@ -43,6 +43,7 @@
     "jquery": "^2.1.4",
     "leaflet": "^0.7.7",
     "lodash": "^3.10.1",
-    "redux": "^3.0.4"
+    "redux": "^3.0.4",
+    "stampit": "^2.1.1"
   }
 }
