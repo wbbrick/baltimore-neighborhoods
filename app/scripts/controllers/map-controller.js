@@ -7,17 +7,17 @@ let L = require('leaflet');
 L.esri = require('esri-leaflet');
 let d3 = require('d3');
 let stampit = require('stampit');
+let _ = require('lodash');
 
 let privateMethods = stampit().init( function(){
 	this._setupD3 = function(){
 		this.svg = d3.select(this.map.getPanes().overlayPane).append('svg');
 		this.g = this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pen');
-		this.sketchGroups = [
-			this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil'),
-			this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil'),
-			this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil'),
-			this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil')
-		];
+
+		this.sketchGroups = _.map(
+			_.range(0,4),
+			() => this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil')
+		);
 	};
 
 	this._addNeighborhoods = function() {
@@ -81,6 +81,10 @@ let privateMethods = stampit().init( function(){
 		reset();
 	};
 
+	this._addMouseBehavior = function() {
+		//this.g.on( 'mouseover', function( ) { console.log( this ); } );
+	};
+
 	this._setBasemap = function(){
 		L.esri.basemapLayer('Gray').addTo(this.map);
 	};
@@ -102,6 +106,7 @@ let publicMethods = stampit( {
 			this._setBasemap();
 			this._setupD3();
 			this._addNeighborhoods();
+			this._addMouseBehavior();
 		}
 	}
 } );
