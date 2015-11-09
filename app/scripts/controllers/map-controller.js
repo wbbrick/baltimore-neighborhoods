@@ -25,10 +25,6 @@ let privateMethods = stampit().init( function(){
 			.attr( 'id', 'pencilGradient' );
 
 		this.gradient.append( 'stop' )
-			.attr( 'offset', '0%')
-			.attr( 'stop-color', 'white');
-
-		this.gradient.append( 'stop' )
 			.attr( 'offset', '10%')
 			.attr( 'stop-color', '#777');
 
@@ -39,10 +35,6 @@ let privateMethods = stampit().init( function(){
 		this.gradient.append( 'stop' )
 			.attr( 'offset', '90%')
 			.attr( 'stop-color', '#777');
-
-		this.gradient.append( 'stop' )
-			.attr( 'offset', '100%')
-			.attr( 'stop-color', 'white');
 	};
 
 	this._addNeighborhoods = function() {
@@ -60,8 +52,8 @@ let privateMethods = stampit().init( function(){
 		function randomizeCoordinate( coordinates ){
 			if( coordinates.length === 2) {
 				return [
-					coordinates[0] + (Math.random() - 0.5) * .00007,
-					coordinates[1] + (Math.random() - 0.5) * .00007
+					coordinates[0] + (Math.random() - 0.5) * .0001,
+					coordinates[1] + (Math.random() - 0.5) * .0001
 				];
 			}
 			else{
