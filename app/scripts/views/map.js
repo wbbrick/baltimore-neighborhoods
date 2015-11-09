@@ -1,18 +1,15 @@
 /*
- * Map View - the map view, which quarantines 
+ * Map View - the map view, which quarantines the map api to the controller
  */
 
 let Backbone = require('backbone');
-let MapController = require('../controllers/map-controller');
 
 module.exports = ( function(){
 	return Backbone.View.extend( {
 		initialize: function( options ) {
 			this.store = options.store;
 			this.neighborhoods = options.neighborhoods;
-			this.mapController = MapController( {
-				'neighborhoods': this.neighborhoods
-			} );
+			this.mapController = options.mapController;
 		},
 
 		template: require('../templates/map.ejs')(),
@@ -20,7 +17,8 @@ module.exports = ( function(){
 		setupMap: function() {
 			this.mapController.createMap( {
 				'div': 'map',
-				'neighborhoods': this.neighborhoods
+				'neighborhoods': this.neighborhoods,
+				'store' : this.store
 			} );
 			this.mapController.setView( {
 				'lat': 39.283333,

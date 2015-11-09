@@ -8,13 +8,14 @@ let _ = require('lodash');
 module.exports = ( function(){
 	return Backbone.Collection.extend( {
 		initialize: function( options ) {
-			_.bindAll( this, 'formOriginalGeoJSON' );
+			this.store = options.store;
 		},
 
 		url: '../../data/neighborhoods.topojson',
 
-		formOriginalGeoJSON: function() {
-			return _.extend( this.wrapper, { features: this.toJSON() } );
+		getNeighborhoodInfo: function( neighborhood ) {
+			debugger;
+			return this
 		},
 
 		parse: function( resp ){

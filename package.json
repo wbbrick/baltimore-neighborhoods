@@ -6,7 +6,8 @@
   "style": [
     "app/styles/main.less",
     "app/styles/map.less",
-    "./node_modules/leaflet/dist/leaflet.css"
+      "./node_modules/leaflet/dist/leaflet.css",
+	  "./node_modules/sidebar-v2/css/leaflet-sidebar.min.css"
   ],
   "scripts": {
     "browser-sync": "browser-sync start --server './dist' --files 'dist/scripts/main.js', 'dist/styles/main.css'",
@@ -45,6 +46,7 @@
     "leaflet": "^0.7.7",
     "lodash": "^3.10.1",
     "redux": "^3.0.4",
+    "sidebar-v2": "git+https://github.com/Turbo87/sidebar-v2.git",
     "stampit": "^2.1.1",
     "topojson": "^1.6.19"
   }

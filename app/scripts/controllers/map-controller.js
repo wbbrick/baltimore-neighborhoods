@@ -9,6 +9,8 @@ let d3 = require('d3');
 let stampit = require('stampit');
 let _ = require('lodash');
 let topojson = require('topojson');
+let selectNeighborhood = require('../redux').selectNeighborhood;
+require('../../../node_modules/sidebar-v2/js/leaflet-sidebar.js');
 
 let privateMethods = stampit().init( function(){
 	this._setupD3 = function(){
@@ -69,7 +71,8 @@ let privateMethods = stampit().init( function(){
 		    .data( topojson.feature( neighborhoodData, neighborhoodData.objects.neighborhoods ).features )
 		    .enter()
 			.append('path')
-		    .attr( 'd', this.path );
+			.attr( 'd', this.path )
+			.attr( 'data-name', (d) => _.isUndefined( d.properties ) ? '' : d.properties.Name );
 		this.sketchFeatures = [];
 		this.sketchGroups.forEach( function( g ) {
 			let sketchFeature = g.selectAll( 'path' )
@@ -112,11 +115,18 @@ let privateMethods = stampit().init( function(){
 	};
 
 	this._addMouseBehavior = function() {
-		//this.g.on( 'mouseover', function( ) { console.log( this ); } );
+		this.g.selectAll('path').on( 'click', function( ev ) {
+			this.store.dispatch( selectNeighborhood( ev.properties.Name ) );
+		}.bind( this ) );
 	};
 
 	this._setBasemap = function(){
 		L.esri.basemapLayer('Gray').addTo(this.map);
+	};
+
+	this._zoomTo = function( neighborhood ) {
+		let neighborhoodPath = this.g.selectAll(`[data-name="${neighborhood}"]` )[0][0];
+		console.log( neighborhoodPath );
 	};
 } );
 
@@ -127,6 +137,13 @@ let publicMethods = stampit( {
 		},
 		createMap: function( options ){
 			this.map = L.map( options.div );
+			this.store = options.store;
+
+
+			this.store.subscribe(
+				() => this._zoomTo( this.store.getState().selectedNeighborhood )
+			);
+
 			this.setView( {
 				'lat': 39.283333,
 				'lon': -76.616667,
@@ -137,6 +154,9 @@ let publicMethods = stampit( {
 			this._setupD3();
 			this._addNeighborhoods();
 			this._addMouseBehavior();
+		},
+		createSidebar: function( options ) {
+			var sidebar = L.control.sidebar( options.div ).addTo(this.map);
 		}
 	}
 } );
