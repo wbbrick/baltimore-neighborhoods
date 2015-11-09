@@ -18,6 +18,30 @@ let privateMethods = stampit().init( function(){
 			_.range(0,4),
 			() => this.svg.append('g').attr('class', 'leaflet-zoom-hide neighborhood-group pencil')
 		);
+		this.defs = this.svg.append('defs');
+
+		this.gradient = this.defs.append( 'linearGradient' )
+			.attr( 'id', 'pencilGradient' );
+
+		this.gradient.append( 'stop' )
+			.attr( 'offset', '0%')
+			.attr( 'stop-color', 'white');
+
+		this.gradient.append( 'stop' )
+			.attr( 'offset', '10%')
+			.attr( 'stop-color', '#777');
+
+		this.gradient.append( 'stop' )
+			.attr( 'offset', '50%')
+			.attr( 'stop-color', '#222');
+
+		this.gradient.append( 'stop' )
+			.attr( 'offset', '90%')
+			.attr( 'stop-color', '#777');
+
+		this.gradient.append( 'stop' )
+			.attr( 'offset', '100%')
+			.attr( 'stop-color', 'white');
 	};
 
 	this._addNeighborhoods = function() {
