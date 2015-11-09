@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "style": [
-      "app/styles/main.less",
-	  "app/styles/map.less",
+    "app/styles/main.less",
+    "app/styles/map.less",
     "./node_modules/leaflet/dist/leaflet.css"
   ],
   "scripts": {
@@ -45,6 +45,7 @@
     "leaflet": "^0.7.7",
     "lodash": "^3.10.1",
     "redux": "^3.0.4",
-    "stampit": "^2.1.1"
+    "stampit": "^2.1.1",
+    "topojson": "^1.6.19"
   }
 }

@@ -11,16 +11,14 @@ module.exports = ( function(){
 			_.bindAll( this, 'formOriginalGeoJSON' );
 		},
 
-		url: '../../data/neighborhoods.geojson',
+		url: '../../data/neighborhoods.topojson',
 
 		formOriginalGeoJSON: function() {
 			return _.extend( this.wrapper, { features: this.toJSON() } );
 		},
 
 		parse: function( resp ){
-			this.wrapper = _.omit( resp, 'features' );
-			this.bbox = resp.bbox;
-			return resp.features;
+			return resp;
 		}
 	} );
 } )();

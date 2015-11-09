@@ -8,6 +8,7 @@ L.esri = require('esri-leaflet');
 let d3 = require('d3');
 let stampit = require('stampit');
 let _ = require('lodash');
+let topojson = require('topojson');
 
 let privateMethods = stampit().init( function(){
 	this._setupD3 = function(){
@@ -49,26 +50,51 @@ let privateMethods = stampit().init( function(){
 		var map = this.map;
 		function _projectPoint(x, y) {
 			var point = map.latLngToLayerPoint(new L.LatLng(y, x));
-			this.stream.point(point.x, point.y);
+			if( this.stream ) {
+				return this.stream.point(point.x, point.y);
+			} else {
+				return [point.x, point.y];
+			}
 		};
+
+		function randomizeCoordinate( coordinates ){
+			if( coordinates.length === 2) {
+				return [
+					coordinates[0] + (Math.random() - 0.5) * .00007,
+					coordinates[1] + (Math.random() - 0.5) * .00007
+				];
+			}
+			else{
+				return coordinates.map( randomizeCoordinate );
+			}
+		}
+
+		let neighborhoodData = this.neighborhoods.toJSON()[0];
 
 		this.transform = d3.geo.transform({point: _projectPoint});
 		this.path = d3.geo.path().projection(this.transform);
-		let feature = this.g.selectAll('path')
-			    .data(this.neighborhoods.toJSON() )
-			    .enter().append('path');
-
+		this.feature = this.g.selectAll( 'path' )
+		    .data( topojson.feature( neighborhoodData, neighborhoodData.objects.neighborhoods ).features )
+		    .enter()
+			.append('path')
+		    .attr( 'd', this.path );
 		this.sketchFeatures = [];
 		this.sketchGroups.forEach( function( g ) {
-			let sketchFeature = g.selectAll('path')
-				    .data(this.neighborhoods.toJSON() )
-				    .enter().append('path');
-			this.sketchFeatures.push( sketchFeature );
+			let sketchFeature = g.selectAll( 'path' )
+			    .data( topojson.feature( neighborhoodData, neighborhoodData.objects.neighborhoods ).features )
+			    .enter()
+			    .append('path');
+			sketchFeature.attr('d', function( data ){
+				data.geometry.coordinates = data.geometry.coordinates.map( randomizeCoordinate );
+				return this.path( data );
+			}.bind( this ) );
 		}.bind( this ) );
 
 		// Reposition the SVG to cover the features.
 		let reset = function reset() {
-			let bounds = this.path.bounds(this.neighborhoods.formOriginalGeoJSON());
+			let feature = topojson.feature( neighborhoodData, neighborhoodData.objects.neighborhoods );
+			let bounds = this.path.bounds( feature );
+
 			let topLeft = bounds[0];
 			let bottomRight = bounds[1];
 
@@ -80,28 +106,16 @@ let privateMethods = stampit().init( function(){
 			this.g.attr('transform', 'translate(' + -topLeft[0] + ',' + -topLeft[1] + ')');
 			this.sketchGroups.forEach( function( g ) {
 				g.attr('transform', 'translate(' + -topLeft[0] + ',' + -topLeft[1] + ')');
-			} );
-
-
-			feature.attr('d', this.path );
-
-			function randomizeCoordinate( coordinates ){
-				if( coordinates.length === 2) {
-					return [coordinates[0] + (Math.random() - 0.5) * .00007, coordinates[1] + (Math.random() - 0.5) * .00007];
-				}
-				else{
-					return coordinates.map( randomizeCoordinate );
-				}
-			}
-
-			this.sketchFeatures.forEach( function ( sketchFeature ) {
-				sketchFeature.attr('d', function( data ){
+				g.selectAll('path').attr('d', function( data ){
 					data.geometry.coordinates = data.geometry.coordinates.map( randomizeCoordinate );
 					return this.path( data );
 				}.bind( this ) );
-			}.bind( this ) );
+			}, this );
+
+			this.feature.attr('d', this.path);
+
 		}.bind( this );
-		map.on('viewreset', reset);
+		map.on('viewreset', reset );
 		reset();
 	};
 
