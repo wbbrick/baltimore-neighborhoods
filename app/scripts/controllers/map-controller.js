@@ -68,9 +68,6 @@ let privateMethods = stampit().init( function(){
 		let geoJSONData = topojson.feature( neighborhoodData, neighborhoodData.objects.neighborhoods ).features;
 		let highValue = _.max( _.pluck( _.pluck( geoJSONData, 'properties' ), this.store.getState().choroplethValue ) );
 
-		console.log( _.pluck( _.pluck( geoJSONData , 'properties' ), this.store.getState().choroplethValue ) );
-		debugger;
-
 		this.transform = d3.geo.transform({point: _projectPoint});
 		this.path = d3.geo.path().projection(this.transform);
 		this.feature = this.g.selectAll( 'path' )

@@ -13,6 +13,7 @@ module.exports = ( function(){
 	return Backbone.View.extend( {
 		initialize: function( options ) {
 			this.store = options.store;
+			this.sidebarView = options.sidebarView;
 
 			_.bindAll( this, 'render' );
 
@@ -32,9 +33,18 @@ module.exports = ( function(){
 
 		template: require('../templates/app.ejs')(),
 
+		events: {
+			'click .menu-button': 'openSidebar'
+		},
+
+		openSidebar: function() {
+			this.sidebarView.open();
+		},
+
 		render: function() {
 			this.$el.html( this.template );
 			this.modalView.setElement('.modal').render();
+			this.sidebarView.setElement('.settings-bar').render();
 
 			this.mapView.setElement('#map-container').render();
 		}

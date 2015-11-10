@@ -20,7 +20,8 @@
     "serve": "npm run clean && npm run watch:js & npm run watch:copy & npm run browser-sync ",
     "watch:js": "watchify app/scripts/main.js -p [ parcelify -wo dist/styles/main.css ] -dv -o 'exorcist dist/scripts/main.js.map > dist/scripts/main.js --base ./scripts'"
   },
-  "browser": {
+	"browser": {
+		"d3": "./node_modules/d3/d3.min.js",
     "underscore": "./node_modules/lodash/index.js"
   },
   "browserify": {
