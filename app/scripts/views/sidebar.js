@@ -20,6 +20,7 @@ module.exports = ( function(){
 		render: function() {
 			this.$el.html( this.template );
 			this.$el
+				.sidebar('setting', 'transition', 'overlay')
 				.sidebar( 'attach events', '.menu-button' );
 		}
 	} );
