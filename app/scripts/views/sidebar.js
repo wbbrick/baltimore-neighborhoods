@@ -17,12 +17,10 @@ module.exports = ( function(){
 
 		template: require('../templates/sidebar.ejs')(),
 
-		open: function() {
-			this.$el.sidebar( 'show' );
-		},
-
 		render: function() {
 			this.$el.html( this.template );
+			this.$el
+				.sidebar( 'attach events', '.menu-button' );
 		}
 	} );
 } )();

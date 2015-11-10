@@ -11,7 +11,7 @@
 	  "./node_modules/semantic-ui/dist/semantic.min.css"
   ],
   "scripts": {
-    "browser-sync": "browser-sync start --server './dist' --reload-delay 50 --files 'dist/scripts/main.js, dist/styles/main.css'",
+    "browser-sync": "browser-sync start --server './dist' --reload-delay 200 --files 'dist/scripts/main.js, dist/styles/main.css'",
       "clean": "rimraf dist && mkdir dist && mkdir dist/scripts && mkdir dist/data && mkdir dist/styles",
 	  "watch:icons" : "cpx \"node_modules/semantic-ui/dist/themes/default/assets/fonts/icons.*\" \"dist/styles/themes/default/assets/fonts/\" -w",
 	  "watch:html" : "cpx \"app/*.html\" \"dist\" -w",

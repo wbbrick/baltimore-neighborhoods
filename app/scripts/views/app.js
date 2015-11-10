@@ -33,14 +33,6 @@ module.exports = ( function(){
 
 		template: require('../templates/app.ejs')(),
 
-		events: {
-			'click .menu-button': 'openSidebar'
-		},
-
-		openSidebar: function() {
-			this.sidebarView.open();
-		},
-
 		render: function() {
 			this.$el.html( this.template );
 			this.modalView.setElement('.modal').render();
