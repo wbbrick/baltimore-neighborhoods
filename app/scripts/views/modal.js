@@ -4,7 +4,9 @@
 
 let Backbone = require('backbone');
 let _ = require('lodash');
-let $ = require('jquery');
+var transition = require('../../../semantic/dist/components/transition');
+var modal = require('../../../semantic/dist/components/modal');
+var dimmer = require('../../../semantic/dist/components/dimmer');
 
 module.exports = ( function(){
 	return Backbone.View.extend( {
@@ -27,7 +29,7 @@ module.exports = ( function(){
 
 		render: function() {
 			this.$el.html( this.template );
-//			$(this.el).modal();
+			$(this.el).modal();
 		}
 	} );
 } )();

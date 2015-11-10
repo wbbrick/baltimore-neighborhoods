@@ -44,6 +44,7 @@
   "dependencies": {
     "backbone": "^1.2.3",
     "better-console": "^0.2.4",
+    "bootswatch": "^3.3.5",
     "d3": "^3.5.6",
     "del": "^2.0.2",
     "esri-leaflet": "^1.0.0",
@@ -78,6 +79,7 @@
     "redux": "^3.0.4",
     "require-dot-file": "^0.4.0",
     "run-sequence": "^1.1.4",
+    "semantic-ui": "^2.1.6",
     "sidebar-v2": "git+https://github.com/Turbo87/sidebar-v2.git",
     "stampit": "^2.1.1",
     "topojson": "^1.6.19",
