@@ -10,7 +10,6 @@ let stampit = require('stampit');
 let _ = require('lodash');
 let topojson = require('topojson');
 let selectNeighborhood = require('../redux').selectNeighborhood;
-require('../../../node_modules/sidebar-v2/js/leaflet-sidebar.js');
 
 let privateMethods = stampit().init( function(){
 	this._setupD3 = function(){
@@ -125,8 +124,8 @@ let privateMethods = stampit().init( function(){
 	};
 
 	this._zoomTo = function( neighborhood ) {
+		//to be implemented
 		let neighborhoodPath = this.g.selectAll(`[data-name="${neighborhood}"]` )[0][0];
-		console.log( neighborhoodPath );
 	};
 } );
 
@@ -156,7 +155,7 @@ let publicMethods = stampit( {
 			this._addMouseBehavior();
 		},
 		createSidebar: function( options ) {
-			var sidebar = L.control.sidebar( options.div ).addTo(this.map);
+			//var sidebar = L.control.sidebar( options.div ).addTo(this.map);
 		}
 	}
 } );
