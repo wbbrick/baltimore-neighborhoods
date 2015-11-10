@@ -6,7 +6,7 @@
   "style": [
     "app/styles/main.less",
     "app/styles/map.less",
-    "app/styles/sidebar.less",
+    "app/styles/modal.less",
     "./node_modules/leaflet/dist/leaflet.css",
     "./node_modules/semantic-ui/dist/components/sidebar.css"
   ],
@@ -18,19 +18,10 @@
     "watch:js": "watchify app/scripts/main.js -p [ parcelify -wo dist/styles/main.css ] -dv -o 'exorcist dist/scripts/main.js.map > dist/scripts/main.js --base ./scripts'"
   },
   "browser": {
-    "underscore": "./node_modules/lodash/index.js",
-    "semantic-ui-modal": "./node_modules/semantic-ui/dist/components/modal.min.js"
-  },
-  "browserify-shim": {
-    "semantic-ui-modal": {
-      "depends": [
-        "jquery:jQuery"
-      ]
-    }
+    "underscore": "./node_modules/lodash/index.js"
   },
   "browserify": {
     "transform": [
-      "browserify-shim",
       "jstify",
       "babelify"
     ]

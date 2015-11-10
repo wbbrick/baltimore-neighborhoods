@@ -6,7 +6,7 @@ let MapView = require('./map');
 let Backbone = require('backbone');
 let _ = require('lodash');
 let highlightNeighborhood = require('../redux').highlightNeighborhood;
-let SidebarView = require('./sidebar.js');
+let ModalView = require('./modal.js');
 let MapController = require('../controllers/map-controller');
 
 module.exports = ( function(){
@@ -19,8 +19,9 @@ module.exports = ( function(){
 			this.neighborhoods = options.neighborhoods;
 			this.mapController = MapController();
 
-			this.sidebarView = new SidebarView({
-				'mapController' : this.mapController
+			this.modalView = new ModalView({
+				'neighborhoods': this.neighborhoods,
+				'store' : this.store
 			});
 			this.mapView = new MapView( {
 				'store': this.store,
@@ -33,7 +34,7 @@ module.exports = ( function(){
 
 		render: function() {
 			this.$el.html( this.template );
-			this.sidebarView.setElement('#sidebar-container').render();
+			this.modalView.setElement('#modal').render();
 
 			this.mapView.setElement('#map-container').render();
 		}

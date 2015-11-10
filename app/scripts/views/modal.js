@@ -1,25 +1,33 @@
 /*
- * Sidebar View - the sidebar view, which shows data along the side
+ * Modal View - the modal view, which shows data when a neighborhood is selected
  */
 
 let Backbone = require('backbone');
 let _ = require('lodash');
+let $ = require('jquery');
 
 module.exports = ( function(){
 	return Backbone.View.extend( {
 		initialize: function( options ) {
 			this.store = options.store;
-			this.mapController = options.mapController;
 			this.neighborhoods = options.neighborhoods;
+
+			this.unsubscribe = this.store.subscribe( this.toggle.bind( this ) );
 		},
 
-		template: require('../templates/sidebar.ejs')(),
+		toggle: function() {
+			if( _( this.store.getState().selectedNeighborhood ).isEmpty() ) {
+				this.$el.modal( 'close' );
+			} else {
+				this.$el.modal( 'open' );
+			}
+		},
+
+		template: require('../templates/modal.ejs')(),
 
 		render: function() {
 			this.$el.html( this.template );
-			this.mapController.createSidebar( {
-				'div' : 'sidebar'
-			} );
+//			$(this.el).modal();
 		}
 	} );
 } )();
