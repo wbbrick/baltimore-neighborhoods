@@ -19,17 +19,20 @@ module.exports = ( function(){
 
 		toggle: function() {
 			if( _( this.store.getState().selectedNeighborhood ).isEmpty() ) {
-				this.$el.modal( 'close' );
+				this.$el.modal( 'hide' );
 			} else {
-				this.$el.modal( 'open' );
+				this.$el.html( this.template( this.store.getState() ) );
+				this.$el.modal( 'show' );
 			}
 		},
 
-		template: require('../templates/modal.ejs')(),
+		template: require('../templates/modal.ejs'),
 
 		render: function() {
-			this.$el.html( this.template );
-			$(this.el).modal();
+			this.$el.modal( {
+				'easing' : 'easeOutQuad',
+				'transition' : 'vertical flip'
+			} );
 		}
 	} );
 } )();

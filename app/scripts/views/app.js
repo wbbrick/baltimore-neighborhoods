@@ -34,7 +34,7 @@ module.exports = ( function(){
 
 		render: function() {
 			this.$el.html( this.template );
-			this.modalView.setElement('#modal').render();
+			this.modalView.setElement('.modal').render();
 
 			this.mapView.setElement('#map-container').render();
 		}
