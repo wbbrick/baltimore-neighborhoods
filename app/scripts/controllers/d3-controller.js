@@ -1,14 +1,11 @@
 /*
- * Map Controller - All Leaflet and D3 API calls are made via this controller
+ * D3 Controller - All D3 API calls are made via this controller
  * so as to abstract away the API
  */
 
-let L = require('leaflet');
-L.esri = require('esri-leaflet');
 let d3 = require('d3');
 let stampit = require('stampit');
 let _ = require('lodash');
-let topojson = require('topojson');
 let selectNeighborhood = require('../store').selectNeighborhood;
 
 let privateMethods = stampit().init( function(){
@@ -38,8 +35,6 @@ let privateMethods = stampit().init( function(){
 			.attr( 'stop-color', '#777');
 	};
 
-	this._interpolator = d3.interpolateRgb( 'red', 'blue' );
-
 	this._addNeighborhoods = function() {
 		//declaring map locally so _projectPoint can see it and still have access to this.stream
 		var map = this.map;
@@ -65,24 +60,15 @@ let privateMethods = stampit().init( function(){
 		}
 
 		let neighborhoodData = this.neighborhoods.toJSON()[0];
-		let geoJSONData = topojson.feature( neighborhoodData, neighborhoodData.objects.neighborhoods ).features;
-		let highValue = _.max( _.pluck( _.pluck( geoJSONData, 'properties' ), this.store.getState().choroplethValue ) );
-
-		console.log( _.pluck( _.pluck( geoJSONData , 'properties' ), this.store.getState().choroplethValue ) );
-		debugger;
 
 		this.transform = d3.geo.transform({point: _projectPoint});
 		this.path = d3.geo.path().projection(this.transform);
 		this.feature = this.g.selectAll( 'path' )
-			.data( geoJSONData )
+		    .data( topojson.feature( neighborhoodData, neighborhoodData.objects.neighborhoods ).features )
 		    .enter()
 			.append('path')
 			.attr( 'd', this.path )
-		//add data name and fill properties to the exact polygon
-			.attr( 'data-name', (d) => _.isUndefined( d.properties ) ? '' : d.properties.Name )
-			.attr( 'fill', (d) => this._interpolator( d.properties[this.store.getState().choroplethValue] / highValue ) );
-
-
+			.attr( 'data-name', (d) => _.isUndefined( d.properties ) ? '' : d.properties.Name );
 		this.sketchFeatures = [];
 		this.sketchGroups.forEach( function( g ) {
 			let sketchFeature = g.selectAll( 'path' )

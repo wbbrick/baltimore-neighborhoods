@@ -5,7 +5,7 @@
 let MapView = require('./map');
 let Backbone = require('backbone');
 let _ = require('lodash');
-let highlightNeighborhood = require('../redux').highlightNeighborhood;
+let highlightNeighborhood = require('../store').highlightNeighborhood;
 let ModalView = require('./modal.js');
 let MapController = require('../controllers/map-controller');
 

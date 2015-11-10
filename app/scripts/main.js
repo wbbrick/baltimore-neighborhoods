@@ -5,7 +5,7 @@ window.$ = window.jQuery = require('jquery');
 let AppView = require('./views/app');
 let NeighboorhoodCollection = require('./collections/neighborhoods.js');
 let createStore = require('redux').createStore;
-let reduxApp = require('./redux').reduxApp;
+let reduxApp = require('./store').reduxApp;
 
 ( function() {
 	let store = createStore( reduxApp );

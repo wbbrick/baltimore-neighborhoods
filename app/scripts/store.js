@@ -9,7 +9,8 @@ function selectNeighborhood( neighborhood ) {
 
 //reducers
 const initialState = {
-	selectedNeighborhood : ''
+	selectedNeighborhood : '',
+	choroplethValue: 'Vacant'
 };
 
 function reduxApp( state, action ) {
