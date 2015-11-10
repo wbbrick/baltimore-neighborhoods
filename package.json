@@ -11,9 +11,12 @@
 	  "./node_modules/semantic-ui/dist/semantic.min.css"
   ],
   "scripts": {
-    "browser-sync": "browser-sync start --server './dist' --files 'dist/scripts/main.js', 'dist/styles/main.css'",
-    "clean": "rimraf dist && mkdir dist && mkdir dist/scripts && mkdir dist/data && mkdir dist/styles",
-    "watch:copy": "cpx \"app/*.html\" \"dist\" -w & cpx \"app/data/*\" \"dist/data\" -w",
+    "browser-sync": "browser-sync start --server './dist' --reload-delay 50 --files 'dist/scripts/main.js', 'dist/styles/main.css'",
+      "clean": "rimraf dist && mkdir dist && mkdir dist/scripts && mkdir dist/data && mkdir dist/styles",
+	  "watch:icons" : "cpx \"node_modules/semantic-ui/dist/themes/default/assets/fonts/icons.*\" \"dist/styles/themes/default/assets/fonts/\" -w",
+	  "watch:html" : "cpx \"app/*.html\" \"dist\" -w",
+	  "watch:data" : "cpx \"app/data/*\" \"dist/data\" -w",
+    "watch:copy": "npm run watch:html & npm run watch:data & npm run watch:icons",
     "serve": "npm run clean && npm run watch:js & npm run watch:copy & npm run browser-sync ",
     "watch:js": "watchify app/scripts/main.js -p [ parcelify -wo dist/styles/main.css ] -dv -o 'exorcist dist/scripts/main.js.map > dist/scripts/main.js --base ./scripts'"
   },
